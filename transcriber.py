@@ -14,9 +14,9 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 """ At the moment this file should only be used as a code entry point.
-Although this file has a transcriber that can be used to obtain the transcription of a musical signal, no work has
-been done to isolate it into a reusable module, as I spent no time thinking of an appropriate API for such a module.
-Submodules used by the transcriber (PDAs, clustering algorithms, etc) are isolated and ready to be reused. """
+    Although this file has a transcriber that can be used to obtain the transcription of a musical signal, no work has
+    been done to isolate it into a reusable module, as I spent no time thinking of an appropriate API for such a module.
+    Submodules used by the transcriber (PDAs, clustering algorithms, etc) are isolated and ready to be reused. """
 
 # Debugging parameters
 DEBUG_PERF  = False
@@ -65,11 +65,11 @@ class Transcriber(object):
 
     def __init__(self, blocks_per_sec, samples_per_block, noise_detection_duration):
         """ Initializes a microphone listener object.
-        NOTE: guidelines for defining the initializer parameters:
-            'samples_per_block == int(44100/blocks_per_sec)' -> no sample overlapping between blocks, every sample received is used.
-            'samples_per_block > int(44100/blocks_per_sec)'  -> sample overlapping between blocks, every sample received is used, some are used multiple times.
-            'samples_per_block < int(44100/blocks_per_sec)'  -> no sample overlapping, some samples are discarded (will raise).
-        We generally want 'samples_per_block' to be an integer multiple of '44100/samples_per_read', so that every sample is used the same amount of times. """
+            NOTE: guidelines for defining the initializer parameters:
+                'samples_per_block == int(44100/blocks_per_sec)' -> no sample overlapping between blocks, every sample received is used.
+                'samples_per_block > int(44100/blocks_per_sec)'  -> sample overlapping between blocks, every sample received is used, some are used multiple times.
+                'samples_per_block < int(44100/blocks_per_sec)'  -> no sample overlapping, some samples are discarded (will raise).
+            We generally want 'samples_per_block' to be an integer multiple of '44100/samples_per_read', so that every sample is used the same amount of times. """
 
         if samples_per_block < int(44100/blocks_per_sec):
             raise ValueError("samples_per_block must be >= int(44100/blocks_per_sec)")
@@ -221,6 +221,7 @@ class Transcriber(object):
                                    "duration":  np.log2(self.current_ticks),
                                    "ticks":     self.current_ticks,
                                    "slur":      "continue" if self.currently_slurring else "start"})
+
                 self.currently_slurring = True
                 if DEBUG_NOTE:
                     print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
@@ -236,6 +237,7 @@ class Transcriber(object):
                                    "duration":  np.log2(self.current_ticks),
                                    "ticks":     self.current_ticks,
                                    "slur":      "continue" if self.currently_slurring else False})
+
                 if DEBUG_NOTE:
                     print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
 
@@ -259,9 +261,12 @@ class Transcriber(object):
         self.close()
 
         # Extract the last note.
-        # TODO: Extract function
         if self.current_ticks > 2:
-            self.notes.append({"name":self.current_note, "duration":np.log2(self.current_ticks), "ticks":self.current_ticks})
+            self.notes.append({"name":      self.current_note,
+                               "duration":  np.log2(self.current_ticks),
+                               "ticks":     self.current_ticks,
+                               "slur":      "stop" if self.currently_slurring else False})
+
             if DEBUG_NOTE:
                 print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
 
@@ -273,8 +278,8 @@ class Transcriber(object):
         clusters = clst.equidistant_clusterize(durations)
         corrected_notes = [{"name":     n["name"],
                             "duration": 2**mh.find_nearest_value(clusters, n["duration"]),
-                            "slur":     n["slur"] if "slur" in n.keys() else None} for n in self.notes]
-
+                            "slur":     n["slur"]} 
+                           for n in self.notes]
 
         print("\n\n###### Corrected notes:")
         for note in corrected_notes:
