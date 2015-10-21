@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ _log2_500 = _np.log2(500)
 _log2_3000 = _np.log2(3000)
 def ear_response_rfft(x, fs=44100):
     """ The human ear attenuates certain frequencies. 
-    This function produces an RFFT that mimics the human ear behavior.
-    The return value is in decibels of the absolute RFFT values. """
+        This function produces an RFFT that mimics the human ear behavior.
+        The return value is in decibels of the absolute RFFT values. """
     x = _np.asarray(x)
     N = x.size
 
@@ -62,7 +62,7 @@ def bin_for_frequency(f, binSize, fs=44100):
 
 def note_bins(note_array, binSize, fs=44100):
     """ Given an array with note frequencies and a bin size, return an array
-    with the bin most closely related to the note at the corresponding index
-    e.g. note_array [ 40, 60, 100 ]
-         produces   [  1,  2,   4 ] """
+        with the bin most closely related to the note at the corresponding index
+        e.g. note_array [ 40, 60, 100 ]
+             produces   [  1,  2,   4 ] """
     return [bin_for_frequency(f, binSize, fs) for f in note_array]

@@ -54,7 +54,7 @@ def hps(x, fs=44100, lf=255, harmonics=3, precision=2, window=lambda l:_np.kaise
 
 def tunedhps(x, fs=44100, lf=255, harmonics=3, precision=1, window=lambda x:_np.kaiser(x, 7.14285)):
     """ Estimates the pitch (fundamental frequency) of the given sample array by an HPS implementation that evaluates
-    the spectrum only in tuned note frequencies (e.g. frequencies of notes in an assumed tuning). """
+        the spectrum only in tuned note frequencies (e.g. frequencies of notes in an assumed tuning). """
     x -= _np.mean(x)
     N = x.size
     w = x*window(N)

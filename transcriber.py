@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -120,15 +120,19 @@ class Transcriber(object):
         return
 
     def close(self):
+        """ Closes resources used by this instance. """
         self.mic.close()
         return
 
     def detect_noise(self):
+        """ Detects safe noise levels, then initializes instance resources that require knowledge of that. """
         self.noise_threshold = self.mic.detect_noise(self.noise_detection_reads)
         self.tong = tong.TonguingDetector(threshold=1.25*self.noise_threshold)
         return self.noise_threshold
 
-    def transcribe(self):
+    def update(self):
+        """ Performs a transcription iteration update, i.e. wait for microphone data to be available,
+            then update the transcriber state (detect pitch, note duration, etc). """
         if not self.tong:
             raise AssertionError("Please initialize the tonguing detector first. (missing a call to detect_noise()?)")
 
@@ -156,7 +160,11 @@ class Transcriber(object):
                 # We detected tonguing, so split the current note.
                 # TODO: if 'previous_note' is considered noisy, account for it in the duration.
                 # TODO: Consider whether we should increment the current tick partially (proportionally to the audible portion?).
-                self.notes.append({"name":self.current_note, "duration":np.log2(self.current_ticks), "ticks":self.current_ticks, "slur":"stop" if self.currently_slurring else False})
+                self.notes.append({"name":      self.current_note, 
+                                   "duration":  np.log2(self.current_ticks),
+                                   "ticks":     self.current_ticks,
+                                   "slur":      "stop" if self.currently_slurring else False})
+
                 self.currently_slurring = False
                 if DEBUG_NOTE:
                     print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
@@ -209,7 +217,10 @@ class Transcriber(object):
             # Keep in mind that all notes are 'tentative' until their tick count is > n, so:
             #   - C5 C5 C5 D5 D5 means we successfully identified a C5 and the beginning of a D5, assuming n is 1.
             if self.current_ticks > 2:
-                self.notes.append({"name":self.current_note, "duration":np.log2(self.current_ticks), "ticks":self.current_ticks, "slur":"continue" if self.currently_slurring else "start"})
+                self.notes.append({"name":      self.current_note,
+                                   "duration":  np.log2(self.current_ticks),
+                                   "ticks":     self.current_ticks,
+                                   "slur":      "continue" if self.currently_slurring else "start"})
                 self.currently_slurring = True
                 if DEBUG_NOTE:
                     print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
@@ -221,7 +232,10 @@ class Transcriber(object):
             # we can assume the old note has ended.
             #   - C5 C5 C5 D5 E5 means we identified a C5 end, but we don't know the next note yet.
             if self.current_ticks > 2:
-                self.notes.append({"name":self.current_note, "duration":np.log2(self.current_ticks), "ticks":self.current_ticks, "slur":"continue" if self.currently_slurring else False})
+                self.notes.append({"name":      self.current_note,
+                                   "duration":  np.log2(self.current_ticks),
+                                   "ticks":     self.current_ticks,
+                                   "slur":      "continue" if self.currently_slurring else False})
                 if DEBUG_NOTE:
                     print("%s\t %d\t %.3fs"%(self.current_note, self.current_ticks, self.current_ticks/self.blocks_per_sec))
 
@@ -240,6 +254,8 @@ class Transcriber(object):
         return
 
     def finalize(self):
+        """ Finalizes the transcriber. Will close resources, perform calculations and normalizations based on the whole
+            transcription (e.g.: normalize note duration) then writes the transcription to the desired outputs. """
         self.close()
 
         # Extract the last note.
@@ -255,7 +271,9 @@ class Transcriber(object):
 
         durations = np.array([n["duration"] for n in self.notes])
         clusters = clst.equidistant_clusterize(durations)
-        corrected_notes = [{"name":n["name"], "duration":2**mh.find_nearest_value(clusters, n["duration"]), "slur":n["slur"] if "slur" in n.keys() else None} for n in self.notes]
+        corrected_notes = [{"name":     n["name"],
+                            "duration": 2**mh.find_nearest_value(clusters, n["duration"]),
+                            "slur":     n["slur"] if "slur" in n.keys() else None} for n in self.notes]
 
 
         print("\n\n###### Corrected notes:")
@@ -315,6 +333,7 @@ class Transcriber(object):
 
         return
 
+
 if __name__ == "__main__":
     print("### Initializing Transcriber")
     trs = Transcriber(blocks_per_sec = 60.0,
@@ -337,7 +356,7 @@ if __name__ == "__main__":
         if DEBUG_PERF:
             start_time = time.time()
 
-        trs.transcribe()
+        trs.update()
 
         if DEBUG_PERF:
             out_buffer += "Read:  %.4f" % trs.read_time + "\n"
