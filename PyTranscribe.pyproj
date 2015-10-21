@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>155b970f-4e08-4c1e-81ae-8969d9059c0d</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>transcriber.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>PyTranscribe</Name>
+    <RootNamespace>PyTranscribe</RootNamespace>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>3.4</InterpreterVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="clustering\kde.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clustering\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mathhelper\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mic\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mtheory\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pda\hwt.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pda\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="plotting\clustering.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="plotting\fft.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="plotting\spectogram.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="plotting\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pda\hps.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="soundfiles\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tonguing\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="transcriber.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="mathhelper\" />
+    <Folder Include="clustering\" />
+    <Folder Include="mtheory\" />
+    <Folder Include="mic\" />
+    <Folder Include="tonguing\" />
+    <Folder Include="soundfiles\" />
+    <Folder Include="pda\" />
+    <Folder Include="plotting\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
+  <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
