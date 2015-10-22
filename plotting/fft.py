@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@ import numpy as _np
 import soundfiles as _sf
 
 
-""" Plot the FFT for up to 3 given audio file paths. """
 def plotfft(audiopath, audiopath2="", audiopath3="", binsize=44100, plotpath=None):
+    """ Plot the FFT for up to 3 given audio file paths. """
     samplerate, samples = _sf.readfile(audiopath)
 
     # Merge multiple channels
