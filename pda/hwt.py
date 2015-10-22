@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
           This submodule is kept, nonetheless, as it contains functions that are not trivial to implement yet useful
           for analyzing whether harmonic wavelets are appropriate for detecting pitch in a given input. """
 
-import math as _math
+import mathhelper as _math
 
 import numpy as _np
 
