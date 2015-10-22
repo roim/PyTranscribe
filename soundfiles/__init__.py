@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ def readfile(audiopath="wave.npz"):
 
     extension = splitext(audiopath)[1].lower()
     if extension == ".wav":
+        import scipy.io.wavfile as wav
         samplerate, samples = wav.read(audiopath)
     elif extension == ".npy":
         samplerate = 44100
