@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,4 +15,4 @@
 
 """ Module containing plotting utils. """
 
-__all__ = ['clustering', 'fft', 'spectogram']
+__all__ = ['clustering', 'fft', 'hps', 'spectogram']

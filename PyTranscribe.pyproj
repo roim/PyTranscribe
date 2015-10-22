@@ -51,6 +51,9 @@
     <Compile Include="plotting\fft.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="plotting\hps.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="plotting\spectogram.py">
       <SubType>Code</SubType>
     </Compile>
