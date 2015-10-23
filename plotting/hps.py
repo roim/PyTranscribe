@@ -19,16 +19,13 @@ import matplotlib.pyplot as _pl
 import numpy as _np
 import scipy.signal as _sig
 
+import pda.hps as _hps
 import soundfiles as _sf
 
 
 def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7, plotpath=None):
     """ Plots a visual representation of the HPS with 3 harmonics. """
     samplerate, samples = _sf.readfile(audiopath)
-
-    # Use a single channel
-    if hasattr(samples[0], "__len__"):
-        samples = samples[:,0]
 
     X = _np.fft.fft(samples, samplerate)
 
@@ -67,6 +64,34 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
     ax2.set_ylabel("Decimated by 3")
     ax3.set_ylabel("Mean")
     ax3.set_ylim([40, 1.15*_np.max(sum)])
+
+    if plotpath:
+        _pl.savefig(plotpath, bbox_inches="tight")
+    else:
+        _pl.show()
+
+    _pl.clf()
+
+
+def plot_tracking(audiopath, title="", binsize=1470, plotpath=None):
+    """ Plots the HPS tracking of an audio file. """
+    samplerate, samples = _sf.readfile(audiopath)
+
+    detections = samples.size//binsize
+
+    p = _np.zeros(detections)
+    for i in range(detections):
+        p[i] = _hps.hps(samples[i*binsize:(i+1)*binsize])
+
+    _pl.plot(p)
+    _pl.title(title)
+
+    xlocs = _np.linspace(0, detections, 5)
+    _pl.xlabel("Time (s)")
+    _pl.xlim([0, _np.max(xlocs)])
+    _pl.xticks(xlocs, ["%.2f" % l for l in _np.multiply(xlocs, binsize/samplerate)])
+
+    _pl.ylabel("Fundamental Frequency (Hz)")
 
     if plotpath:
         _pl.savefig(plotpath, bbox_inches="tight")
