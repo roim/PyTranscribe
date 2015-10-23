@@ -43,7 +43,6 @@ def readfile(audiopath="wave.npz"):
 
 def writewav(audiopath="wave.npz", outpath="out.wav"):
     """ Write a wav file given an input sample array file that can be read with readfile. """
-    import numpy as np
     import scipy.io.wavfile as wav
 
     samplerate, samples = readfile(audiopath)
@@ -53,9 +52,9 @@ def writewav(audiopath="wave.npz", outpath="out.wav"):
 
 def write_m21stream_to_midi(s, filePath='audio.midi'):
     """ Writes a Music21 stream to a midi file. """
-    import music21 as _music
+    import music21 as music
 
-    mf = _music.midi.translate.streamToMidiFile(s)
+    mf = music.midi.translate.streamToMidiFile(s)
     mf.open(filePath, 'wb')
     mf.write()
     mf.close()
@@ -64,9 +63,9 @@ def write_m21stream_to_midi(s, filePath='audio.midi'):
 
 def write_m21stream_to_xml(s, filePath='audio.xml'):
     """ Writes a Music21 sream to an xml file. """
-    import music21 as _music
+    import music21 as music
 
-    mf = _music.musicxml.m21ToString(s)
+    mf = music.musicxml.m21ToString(s)
     mf.open(filePath, 'wb')
     mf.write()
     mf.close()
