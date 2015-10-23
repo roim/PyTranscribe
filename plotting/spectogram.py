@@ -1,4 +1,4 @@
-# Code for this submodule was modified from 'Create audio spectograms with Python' by Frank Zalkow.
+﻿# Code for this submodule was modified from 'Create audio spectograms with Python' by Frank Zalkow.
 # Original snippet available at http://www.frank-zalkow.de/en/code-snippets/create-audio-spectrograms-with-python.html
 #
 # This work is licensed under a Creative Commons Attribution 3.0 Unported License, 
@@ -14,6 +14,7 @@ import numpy as _np
 import numpy.lib.stride_tricks as _st
 
 import mtheory as _mt
+import pda as _pda
 
 
 def stft(sig, frameSize=2560, overlapFac=0.5, localFac=1, window=_np.ones):
@@ -79,7 +80,7 @@ def plotgrayimage(ims, colormap='jet', plotpath=None):
         _pl.show()
 
 
-def plotstft(audiopath="wave.npz", binsize=1470, plotpath=None, colormap="jet"):
+def plotstft(audiopath="wave.npz", binsize=1470, guidelines=False, plotpath=None, colormap="jet"):
     """ Plots the spectrogram of a given file. """
     import soundfiles as sf
     samplerate, samples = sf.readfile(audiopath)
@@ -98,20 +99,20 @@ def plotstft(audiopath="wave.npz", binsize=1470, plotpath=None, colormap="jet"):
     ims = 20.*_np.log10(_np.abs(sshow)/10e-6) # amplitude to decibel
     timebins, freqbins = _np.shape(ims)
 
-    # Add note guidelines to image
-    min_f = _np.min(ims)
-    notebins = _mt.note_bins(_mt.notes, binsize)
-    for t in range(len(ims)//8):
-        t = t*8
-        for n in range(len(notebins)):
-            ims[t][notebins[n]] = min_f
+    if guidelines:
+        min_f = _np.min(ims)
+        notebins = _pda.note_bins(_mt.notes, binsize)
+        for t in range(len(ims)//8):
+            t = t*8
+            for n in range(len(notebins)):
+                ims[t][notebins[n]] = min_f
 
     _pl.figure(figsize=(15, 7.5))
     _pl.imshow(_np.transpose(ims), origin="lower", aspect="auto", cmap=colormap, interpolation="none")
     _pl.colorbar()
 
-    _pl.xlabel("time (s)")
-    _pl.ylabel("frequency (Hz)")
+    _pl.xlabel("Time (s)")
+    _pl.ylabel("Frequency (Hz)")
     _pl.xlim([0, timebins-1])
     _pl.ylim([0, 0.2*freqbins])
 
