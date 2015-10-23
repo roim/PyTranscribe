@@ -342,8 +342,8 @@ class Transcriber(object):
 if __name__ == "__main__":
     print("### Initializing Transcriber")
     trs = Transcriber(blocks_per_sec = 60.0,
-                       samples_per_block = 1470,
-                       noise_detection_duration = 3.0)
+                      samples_per_block = 1470,
+                      noise_detection_duration = 3.0)
 
     print("### Detecting noise threshold")
     noise_threshold = trs.detect_noise()
