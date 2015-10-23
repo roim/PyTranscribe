@@ -34,7 +34,7 @@ def readfile(audiopath="wave.npz"):
     else:
         raise NotImplementedError("Unknown file extension")
 
-    if _np.issubdtype(samples.dtype, np.integer):
+    if np.issubdtype(samples.dtype, np.integer):
         max = np.iinfo(samples.dtype).max
         samples = np.divide(samples, max)
 
