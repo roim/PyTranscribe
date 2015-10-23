@@ -85,10 +85,6 @@ def plotstft(audiopath="wave.npz", binsize=1470, guidelines=False, plotpath=None
     import soundfiles as sf
     samplerate, samples = sf.readfile(audiopath)
 
-    if _np.issubdtype(samples.dtype, _np.integer):
-        max = _np.iinfo(samples.dtype).max
-        samples = _np.divide(samples, max)
-
     # Use a single channel.
     if hasattr(samples[0], "__len__"):
         samples = samples[:, 0]
