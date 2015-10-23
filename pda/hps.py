@@ -40,7 +40,7 @@ def hps(x, fs=44100, lf=255, harmonics=3, precision=2, window=lambda l:_np.kaise
     hps = _np.copy(X)
     for h in range(2, 2 + harmonics):
         dec = _sig.decimate(X, h)
-        hps[:dec.size] += dec*(0.9**h)
+        hps[:dec.size] += dec*(0.8**h)
 
     # Find the bin corresponding to the lowest detectable frequency.
     lb = lf*N/fs
