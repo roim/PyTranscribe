@@ -30,8 +30,6 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
     if hasattr(samples[0], "__len__"):
         samples = samples[:,0]
 
-    samples = samples[0:samplerate]
-
     X = _np.fft.fft(samples, samplerate)
 
     # amplitude to decibel
