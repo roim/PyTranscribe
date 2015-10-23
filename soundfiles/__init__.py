@@ -47,26 +47,27 @@ def writewav(audiopath="wave.npz", outpath="out.wav"):
     import scipy.io.wavfile as wav
 
     samplerate, samples = readfile(audiopath)
-    if np.issubdtype(samples.dtype, np.integer):
-        max = np.iinfo(samples.dtype).max
-        samples = np.divide(samples, max)
-
     wav.write(outpath, samplerate, samples)
+    return
 
 
 def write_m21stream_to_midi(s, filePath='audio.midi'):
     """ Writes a Music21 stream to a midi file. """
     import music21 as _music
+
     mf = _music.midi.translate.streamToMidiFile(s)
     mf.open(filePath, 'wb')
     mf.write()
     mf.close()
+    return
 
 
 def write_m21stream_to_xml(s, filePath='audio.xml'):
     """ Writes a Music21 sream to an xml file. """
     import music21 as _music
+
     mf = _music.musicxml.m21ToString(s)
     mf.open(filePath, 'wb')
     mf.write()
     mf.close()
+    return
