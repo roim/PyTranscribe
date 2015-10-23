@@ -19,6 +19,8 @@ import matplotlib.pyplot as _pl
 import numpy as _np
 import scipy.signal as _sig
 
+import mathhelper as _mh
+import mtheory as _mt
 import pda.hps as _hps
 import soundfiles as _sf
 
@@ -73,7 +75,7 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
     _pl.clf()
 
 
-def plot_tracking(audiopath, title="", binsize=1470, plotpath=None):
+def plot_tracking(audiopath, title="", binsize=1470, tune=False, plotpath=None):
     """ Plots the HPS tracking of an audio file. """
     samplerate, samples = _sf.readfile(audiopath)
 
@@ -81,7 +83,12 @@ def plot_tracking(audiopath, title="", binsize=1470, plotpath=None):
 
     p = _np.zeros(detections)
     for i in range(detections):
-        p[i] = _hps.hps(samples[i*binsize:(i+1)*binsize])
+        f = _hps.hps(samples[i*binsize:(i+1)*binsize])
+
+        if tune:
+            f = _mh.find_nearest_value(_mt.notes, f)
+
+        p[i] = f
 
     _pl.plot(p)
     _pl.title(title)
