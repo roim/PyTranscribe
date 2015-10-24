@@ -75,30 +75,32 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
     _pl.clf()
 
 
-def plot_tracking(audiopath, title="", binsize=1470, tune=False, plotpath=None):
+def plot_tracking(audiopath, title="", binsize=1470, tune=False, plotpath=None, repetitions=10):
     """ Plots the HPS tracking of an audio file. """
     samplerate, samples = _sf.readfile(audiopath)
 
     detections = samples.size//binsize
 
-    p = _np.zeros(detections)
+    p = _np.zeros(repetitions*detections)
     for i in range(detections):
         f = _hps.hps(samples[i*binsize:(i+1)*binsize])
 
         if tune:
             f = _mh.find_nearest_value(_mt.notes, f)
 
-        p[i] = f
+        for j in range(repetitions):
+            p[repetitions*i+j] = f
 
     _pl.plot(p)
     _pl.title(title)
 
-    xlocs = _np.linspace(0, detections, 5)
+    xlocs = _np.linspace(0, 10*detections, 5)
     _pl.xlabel("Time (s)")
     _pl.xlim([0, _np.max(xlocs)])
-    _pl.xticks(xlocs, ["%.2f" % l for l in _np.multiply(xlocs, binsize/samplerate)])
+    _pl.xticks(xlocs, ["%.2f" % l for l in _np.multiply(xlocs, binsize/(repetitions*samplerate))])
 
     _pl.ylabel("Fundamental Frequency (Hz)")
+    _pl.ylim((0.9*_np.min(p), 1.05*_np.max(p)))
 
     if plotpath:
         _pl.savefig(plotpath, bbox_inches="tight")
