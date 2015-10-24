@@ -17,7 +17,7 @@ import mtheory as _mt
 import pda as _pda
 
 
-def stft(sig, frameSize=2560, overlapFac=0.5, localFac=1, window=_np.ones):
+def stft(sig, frameSize=2560, overlapFac=0.5, localFac=1, window=lambda x:_np.kaiser(x, 7.14285)):
     """ Short Time Fourier Transform of audio signal. """
     # Correct the overlapping factor to account for the localization factor
     correctionFac = 1/overlapFac - localFac/overlapFac + localFac
