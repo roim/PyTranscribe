@@ -57,6 +57,9 @@
     <Compile Include="plotting\spectogram.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="plotting\windowing.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="plotting\__init__.py">
       <SubType>Code</SubType>
     </Compile>
