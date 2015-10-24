@@ -88,8 +88,7 @@ def plot_tracking(audiopath, title="", binsize=1470, tune=False, plotpath=None, 
         if tune:
             f = _mh.find_nearest_value(_mt.notes, f)
 
-        for j in range(repetitions):
-            p[repetitions*i+j] = f
+    p = _np.repeat(p, repetitions)
 
     _pl.plot(p)
     _pl.title(title)
