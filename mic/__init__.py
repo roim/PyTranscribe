@@ -1,4 +1,4 @@
-# Copyright 2015 Rodrigo Roim Ferreira
+﻿# Copyright 2015 Rodrigo Roim Ferreira
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ class MicListener(object):
         try:
             buffer = self._stream.read(self.samples_per_read)
         except IOError as e:
-            if self.print():
+            if self.print:
                 print("\tError recording: %s" % e)
             return _np.zeros(self.samples_per_read)
 
