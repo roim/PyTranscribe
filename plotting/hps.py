@@ -37,11 +37,6 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
     # remove mirror
     dBX = dBX[0:dBX.size/2]
 
-    # Use the highest index as the reference.
-    # We assume the highest index corresponds to the fundamental.
-    reference = _np.argmax(dBX)
-    xlocs = _np.float32([n * reference for n in range(1 + horizontal_harmonics)])
-
     f, (ax0, ax1, ax2, ax3) = _pl.subplots(4, sharex=True, sharey=True)
     axs = (ax0, ax1, ax2, ax3)
 
@@ -56,6 +51,8 @@ def plothps(audiopath, title="Harmonic Product Spectrum", horizontal_harmonics=7
 
     ax0.set_title(title)
 
+    reference = _np.argmax(sum)
+    xlocs = _np.float32([n * reference for n in range(1 + horizontal_harmonics)])
     ax3.set_xlabel("Frequency (Hz)")
     ax3.set_xlim([0, _np.max(xlocs)])
     ax3.set_xticks(xlocs)
