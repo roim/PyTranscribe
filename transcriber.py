@@ -288,11 +288,11 @@ class Transcriber(object):
         most_common = scipy.stats.mode([n["duration"] for n in corrected_notes])[0][0]
         tempo = int(round(60*self.blocks_per_sec/most_common, 0))
 
-        while tempo < 90:
+        while tempo < 80:
             tempo *= 2
             most_common /= 2
 
-        while tempo > 180:
+        while tempo > 220:
             tempo /= 2
             most_common *= 2
 
