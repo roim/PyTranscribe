@@ -108,9 +108,9 @@ def plotstft(audiopath="wave.npz", binsize=1470, guidelines=False, plotpath=None
     _pl.xlim([0, timebins-1])
     _pl.ylim([0, 0.2*freqbins])
 
-    xlocs = _np.float32(_np.linspace(0, timebins-1, 5))
+    xlocs = _np.float32(_np.linspace(0, timebins-1, 20))
     _pl.xticks(xlocs, ["%.02f" % l for l in ((xlocs*samples.size/timebins)+(0.5*binsize))/samplerate])
-    ylocs = _np.int16(_np.round(_np.linspace(0, 0.2*freqbins-1, 40)))
+    ylocs = _np.int16(_np.round(_np.linspace(0, 0.2*freqbins-1, 20)))
     _pl.yticks(ylocs, ["%.02f" % freq[i] for i in ylocs])
 
     if plotpath:
