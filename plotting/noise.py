@@ -25,10 +25,12 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
     """ Too hard to explain, just call it and see what happens, or read the code. """
     samplerate, samples = _sf.readfile(audiopath)
 
-    if samples.size < 4*samplerate:
+    samples = samples[34000:samples.size]
+
+    if samples.size < 3.5*samplerate:
         raise Exception("Input is too short.")
 
-    samples = samples[0:windowsize + 4*samplerate]
+    samples = samples[0:windowsize + 3.5*samplerate]
 
     windows = samples.size//windowsize
 
@@ -53,7 +55,7 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
     _pl.xlabel("Time (seconds)")
     xlocs = _np.int32([n*samplerate/(2*windowsize) for n in range(1 + 2*samples.size//samplerate)])
     xlabels = ["%.1f" % (0.5*int(n)) for n in range(xlocs.size)]
-    _pl.xlim(0, 4*samplerate//windowsize)
+    _pl.xlim(0, 3.5*samplerate//windowsize)
     _pl.xticks(xlocs, xlabels)
 
     _pl.ylabel("RMS Power")
