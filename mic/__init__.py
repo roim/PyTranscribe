@@ -72,7 +72,7 @@ class MicListener(object):
         rms_noise_values.sort()
         pct98i = int(0.98*noise_detection_reads)
         pct98rms = rms_noise_values[pct98i]
-        return 1.1*pct98rms
+        return 1.5*pct98rms
 
     def listen(self):
         """ Returns an nparray with samples from the mic, or an array of zeros if the mic can't be read. """

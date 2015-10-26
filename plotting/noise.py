@@ -21,7 +21,7 @@ import numpy as _np
 import soundfiles as _sf
 
 
-def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
+def plot_noise(audiopath, windowsize=735, title="", plotpath=None):
     """ Too hard to explain, just call it and see what happens, or read the code. """
     samplerate, samples = _sf.readfile(audiopath)
 
@@ -37,12 +37,12 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
         w = samples[i*windowsize:(i+1)*windowsize]
         rms[i] = _np.sqrt(_np.mean(_np.square(w)))
 
-    first3seconds = rms[0:(3*samplerate//windowsize)]
+    first3seconds = _np.copy(rms[0:(3*samplerate//windowsize)])
     first3seconds.sort()
     pct98 = first3seconds[int(0.98*first3seconds.size)]
 
     a_pct98 = _np.repeat(pct98, rms.size)
-    a_noise = _np.repeat(1.1*pct98, rms.size)
+    a_noise = _np.repeat(1.5*pct98, rms.size)
 
     _pl.figure(figsize=(10, 3))
     _pl.title(title)
