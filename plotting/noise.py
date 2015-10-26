@@ -46,9 +46,10 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
 
     _pl.figure(figsize=(10, 3))
     _pl.title(title)
-    _pl.plot(rms, 'r')
-    _pl.plot(a_pct98, 'g')
-    _pl.plot(a_noise, 'b')
+    _pl.plot(rms, 'r', label='RMS Power')
+    _pl.plot(a_pct98, 'g', label='98 percentile')
+    _pl.plot(a_noise, 'b', label='noise threshold')
+    _pl.legend(loc=2)
 
     _pl.xlabel("Time (seconds)")
     xlocs = _np.int32([n*samplerate/(2*windowsize) for n in range(1 + 2*samples.size//samplerate)])
@@ -56,7 +57,6 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
     _pl.xlim(0, 3.5*samplerate//windowsize)
     _pl.xticks(xlocs, xlabels)
 
-    _pl.ylabel("RMS Power")
     _pl.ylim([0, 2*_np.max(first3seconds)])
 
     if plotpath:
