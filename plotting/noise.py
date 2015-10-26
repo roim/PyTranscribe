@@ -25,8 +25,6 @@ def plot_noise(audiopath, windowsize=1470, title="", plotpath=None):
     """ Too hard to explain, just call it and see what happens, or read the code. """
     samplerate, samples = _sf.readfile(audiopath)
 
-    samples = samples[34000:samples.size]
-
     if samples.size < 3.5*samplerate:
         raise Exception("Input is too short.")
 
