@@ -60,3 +60,32 @@ def plot_tonguing(audiopath, title="", duration=3, plotpath=None):
 
     _pl.clf()
     return
+
+
+def plot_amplitude(audiopath, title="", duration=3, plotpath=None):
+    """ Plots the amplitude of an audio signal over time. """
+    samplerate, samples = _sf.readfile(audiopath)
+
+    if samples.size/samplerate < 3:
+        raise Exception("Input too short")
+
+    samples = samples[0:samplerate*duration]
+
+    _pl.figure(figsize=(10, 3))
+    _pl.plot(samples)
+    _pl.title(title)
+
+    xlocs = _np.float32([samplerate*i/2 for i in range(2*duration + 1)])
+    _pl.xlabel("Time (s)")
+    _pl.xlim([0, _np.max(xlocs)])
+    _pl.xticks(xlocs, ["%.2f" % (l/samplerate) for l in xlocs])
+
+    _pl.ylabel("Amplitude")
+
+    if plotpath:
+        _pl.savefig(plotpath, bbox_inches="tight")
+    else:
+        _pl.show()
+
+    _pl.clf()
+    return
