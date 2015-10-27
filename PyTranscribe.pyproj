@@ -48,6 +48,7 @@
     <Compile Include="plotting\clustering.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="plotting\tonguing.py" />
     <Compile Include="plotting\noise.py" />
     <Compile Include="plotting\fft.py">
       <SubType>Code</SubType>
