@@ -37,7 +37,7 @@ def _exponential_smoothing(x, x_s0=0, alpha=0.1):
 
 
 class TonguingDetector(object):
-    def __init__(self, min_duration=0.015, threshold=0.107, fs=44100, step=5):
+    def __init__(self, min_duration=0.01, threshold=0.107, fs=44100, step=5):
         # Slice the input arrays by this step.
         # I know, I know... Last minute optimizations...
         self.step = step
